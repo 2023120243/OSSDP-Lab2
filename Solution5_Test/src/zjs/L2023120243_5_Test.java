@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class L2023120243_Solution_Test {
+public class L2023120243_5_Test {
 // 测试用例设计总体原则：
     // 1. 等价类划分：根据输入参数的特性，将所有可能的输入分为几个等价类，并从中选择具有代表性的测试用例。
     // 2. 边界值分析：针对边界条件进行测试，确保算法能够正确处理最小值、最大值等情况。
