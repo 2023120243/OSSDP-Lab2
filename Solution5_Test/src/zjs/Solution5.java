@@ -1,3 +1,4 @@
+package zjs;
 import java.util.Arrays;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Arrays;
  *
  * 请你统计并返回 nums 中能满足其最小元素与最大元素的 和 小于或等于 target 的 非空 子序列的数目。
  *
- * 由于答案可能很大，请将结果对 109 + 7 取余后返回。
+ * 由于答案可能很大，请将结果对 109 + 7 (10的9次方+7)取余后返回。
  *
  *
  *
@@ -36,9 +37,9 @@ import java.util.Arrays;
  *
  * 提示：
  *
- * 1 <= nums.length <= 105
- * 1 <= nums[i] <= 106
- * 1 <= target <= 106
+ * 1 <= nums.length <= 105(10的5次方)
+ * 1 <= nums[i] <= 106(10的6次方)
+ * 1 <= target <= 106(10的6次方)
  *
  */
 class Solution5 {
@@ -53,18 +54,18 @@ class Solution5 {
         Arrays.sort(nums);
 
         int ans = 0;
-        for (int i = 0; i < nums.length-1 && nums[i] * 2 <= target; ++i) {
+        for (int i = 0; i < nums.length && nums[i] * 2 <= target; ++i) {
             int maxValue = target - nums[i];
-            int pos = binarySearch(nums, maxValue) - 1;
-            int contribute = (pos >= i) ? f[pos - i] : 0;
-            ans = (ans + contribute) / P;
+            int pos = binarySearch(nums, maxValue);
+            int contribute = (pos > i) ? f[pos - i - 1] : 0;
+            ans = (ans + contribute) % P;
         }
 
         return ans;
     }
 
     public void pretreatment() {
-        f[0] = 0;
+        f[0] = 1;
         for (int i = 1; i < MAX_N; ++i) {
             f[i] = (f[i - 1] << 1) % P;
         }
@@ -72,13 +73,9 @@ class Solution5 {
 
     public int binarySearch(int[] nums, int target) {
         int low = 0, high = nums.length;
-        while (low <= high) {
-            int mid = (high - low) / 2 + low;
-            if (mid == nums.length) {
-                return mid;
-            }
-            int num = nums[mid];
-            if (num <= target) {
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] <= target) {
                 low = mid + 1;
             } else {
                 high = mid;
